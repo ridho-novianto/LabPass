@@ -1,1 +1,85 @@
-/venv
+# ==========================================
+# Python & Virtual Environments
+# ==========================================
+/venv/
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+runs/
+
+# ==========================================
+# Environment & Secrets (Wajib jangan di-push)
+# ==========================================
+.env
+.env.*
+!.env.example
+labpass/.env
+labpass/.env.*
+!labpass/.env.example
+
+# ==========================================
+# Dokumen Internal & Instruksi Prompt
+# ==========================================
+AGENTS.md
+AGENTS
+PRD (1).md
+PRD*.md
+PROMPTS.md
+
+# ==========================================
+# Laravel Dependencies & Build Artifacts
+# ==========================================
+**/vendor/
+**/node_modules/
+labpass/public/storage
+labpass/public/hot
+labpass/public/build
+labpass/.phpunit.result.cache
+
+# ==========================================
+# Laravel Storage, Session, Cache & Logs
+# ==========================================
+labpass/storage/*.key
+labpass/storage/framework/cache/*
+!labpass/storage/framework/cache/.gitignore
+labpass/storage/framework/sessions/*
+!labpass/storage/framework/sessions/.gitignore
+labpass/storage/framework/views/*
+!labpass/storage/framework/views/.gitignore
+labpass/storage/logs/*.log
+labpass/storage/app/public/scans/*
+!labpass/storage/app/public/scans/.gitignore
+
+# ==========================================
+# File Hasil Uji Coba & Runtime Output Gambar
+# ==========================================
+sample_annotated.jpg
+test_out.jpg
+output_annotated.jpg
+*.tmp
+
+# ==========================================
+# Windows & OS Metadata
+# ==========================================
+*:Zone.Identifier
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+*~
+
+# ==========================================
+# IDE & Code Editors
+# ==========================================
+.idea/
+.vscode/
+.cursor/
+.codex/
+*.sublime-project
+*.sublime-workspace
