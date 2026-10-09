@@ -68,7 +68,7 @@ class KiosController extends Controller
             'token' => $kehadiran->token,
             'terdeteksi' => $terdeteksi,
             'kurang' => $kurang,
-            'redirect' => $kehadiran->status === 'lulus' ? route('sesi.show', ['token' => $kehadiran->token]) : null
+            'redirect' => $kehadiran->status === 'lulus' ? route('sesi.show', ['token' => $kehadiran->token], false) : null
         ]);
     }
 
@@ -106,7 +106,7 @@ class KiosController extends Controller
         return response()->json([
             'status' => $kehadiran->status,
             'redirect' => in_array($kehadiran->status, ['lulus', 'dispensasi_disetujui']) 
-                ? route('sesi.show', ['token' => $kehadiran->token]) 
+                ? route('sesi.show', ['token' => $kehadiran->token], false) 
                 : null
         ]);
     }

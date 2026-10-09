@@ -315,7 +315,7 @@
                 async runScan() {
                     this.scanning = true;
                     try {
-                        const response = await fetch("{{ route('kios.verifikasi') }}", {
+                        const response = await fetch("{{ route('kios.verifikasi', [], false) }}", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -341,7 +341,7 @@
 
                 async kirimDispensasi() {
                     try {
-                        const res = await fetch("{{ route('kios.minta-dispensasi') }}", {
+                        const res = await fetch("{{ route('kios.minta-dispensasi', [], false) }}", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",

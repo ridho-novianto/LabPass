@@ -29,7 +29,7 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <a href="{{ route('verifikasi.index') }}" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition">
+                <a href="{{ route('verifikasi.index', [], false) }}" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition">
                     &larr; Scan Ulang
                 </a>
             </div>
@@ -195,7 +195,7 @@
                 init() {
                     if (!this.isApproved) {
                         this.pollTimer = setInterval(async () => {
-                            const res = await fetch("{{ route('verifikasi.status-ajax', ['token' => $kehadiran->token]) }}");
+                            const res = await fetch("{{ route('verifikasi.status-ajax', ['token' => $kehadiran->token], false) }}");
                             const data = await res.json();
                             if (data.is_approved) {
                                 this.isApproved = true;
@@ -224,7 +224,7 @@
                         this.aiStepText = 'Ringkasan bahan & limbah siap!';
 
                         // Save selected session & redirect to praktikum
-                        const res = await fetch("{{ route('verifikasi.pilih-materi', ['token' => $kehadiran->token]) }}", {
+                        const res = await fetch("{{ route('verifikasi.pilih-materi', ['token' => $kehadiran->token], false) }}", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",

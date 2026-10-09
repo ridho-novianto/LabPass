@@ -378,7 +378,7 @@
                 volume: 45,
 
                 async submitCheckout() {
-                    const res = await fetch("{{ route('praktikum.checkout', ['token' => $kehadiran->token]) }}", {
+                    const res = await fetch("{{ route('praktikum.checkout', ['token' => $kehadiran->token], false) }}", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -391,7 +391,7 @@
                     });
                     const data = await res.json();
                     alert("Praktikum selesai dicatat. Terima kasih telah mematuhi SOP K3L.");
-                    window.location.href = "{{ route('verifikasi.index') }}";
+                    window.location.href = "{{ route('verifikasi.index', [], false) }}";
                 }
             }
         }

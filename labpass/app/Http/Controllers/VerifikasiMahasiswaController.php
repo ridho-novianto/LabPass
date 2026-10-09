@@ -115,7 +115,7 @@ class VerifikasiMahasiswaController extends Controller
             'detected' => $detected,
             'missing' => $missing,
             'annotated_image' => $annotatedUrl,
-            'redirect' => route('verifikasi.status', ['token' => $token])
+            'redirect' => route('verifikasi.status', ['token' => $token], false)
         ]);
     }
 
@@ -155,7 +155,7 @@ class VerifikasiMahasiswaController extends Controller
 
         return response()->json([
             'status' => 'ok',
-            'redirect' => route('praktikum.show', ['token' => $token])
+            'redirect' => route('praktikum.show', ['token' => $token], false)
         ]);
     }
 

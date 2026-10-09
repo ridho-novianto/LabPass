@@ -245,18 +245,26 @@
                     }
 
                     try {
-                        const res = await fetch("{{ route('verifikasi.scan') }}", {
+                        const res = await fetch("{{ route('verifikasi.scan', [], false) }}", {
                             method: "POST",
                             body: formData
                         });
+                        if (!res.ok) {
+                            const errText = await res.text();
+                            console.error("HTTP error scan:", res.status, errText);
+                            throw new Error("HTTP " + res.status);
+                        }
                         const data = await res.json();
                         this.isProcessing = false;
                         if (data.redirect) {
                             window.location.href = data.redirect;
+                        } else {
+                            alert("Pemindaian selesai namun tidak ada respons pengalihan.");
                         }
                     } catch (e) {
                         this.isProcessing = false;
-                        alert("Gagal memproses pemindaian APD.");
+                        console.error("Scan error detail:", e);
+                        alert("Gagal memproses pemindaian APD. Detail: " + (e.message || "Periksa koneksi"));
                     }
                 }
             }
