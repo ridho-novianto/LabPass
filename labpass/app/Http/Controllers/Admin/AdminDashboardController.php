@@ -330,6 +330,10 @@ class AdminDashboardController extends Controller
             return back()->with('info', 'Materi "' . $judul . '" tidak dapat dihapus karena sudah terikat dengan sesi praktikum.');
         }
 
+        if ($materi->file_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($materi->file_path)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($materi->file_path);
+        }
+
         Cache::forget("materi_ai_summary_{$materi->id}");
         $materi->delete();
 

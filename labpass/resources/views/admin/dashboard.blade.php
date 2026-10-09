@@ -30,7 +30,7 @@
                             {{ strtoupper($activeUser->role) }} PANEL
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500">Pusat Validasi APD YOLO, Modul Materi & Monitoring Limbah</p>
+                    <p class="text-xs text-slate-500">Verifikasi APD & Monitoring</p>
                 </div>
             </div>
 
@@ -241,7 +241,7 @@
                                     <td class="p-4">
                                         @if(in_array($r->status, ['disetujui', 'lulus', 'praktikum_berjalan']))
                                             <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                                ✓ DI-APPROVE
+                                                ACC / DISETUJUI
                                             </span>
                                         @elseif($r->status === 'selesai')
                                             <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
@@ -249,19 +249,19 @@
                                             </span>
                                         @else
                                             <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
-                                                ✗ DITOLAK
+                                                DITOLAK
                                             </span>
                                         @endif
                                     </td>
                                     <td class="p-4">
                                         @if($r->pembuanganLimbah->isNotEmpty())
                                             <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold flex items-center gap-1.5 w-fit">
-                                                <span>✓ Dibuang ke JR-A Merah</span>
+                                                <span>Dibuang ke JR-A Merah</span>
                                                 <span class="font-mono text-[11px] font-normal">({{ $r->pembuanganLimbah->first()->volume_ml }} ml)</span>
                                             </span>
                                         @else
                                             <span class="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 font-semibold">
-                                                ⏳ Belum Dibuang
+                                                Belum Dibuang
                                             </span>
                                         @endif
                                     </td>
@@ -290,25 +290,25 @@
                             <div class="flex items-center gap-2">
                                 <h3 class="text-lg font-bold text-slate-900">Manajemen Modul & Upload Berkas Materi Dosen</h3>
                                 <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                                    AI-Powered Safety Engine
+                                    AI
                                 </span>
                             </div>
                             <p class="text-xs text-slate-500 mt-1">
-                                Unggah berkas dokumen modul (PDF), tentukan APD wajib, takaran bahan kimia, serta pemetaan limbah jerigen. Sistem AI secara otomatis menganalisis dan membuat ringkasan keselamatan saat mahasiswa membuka modul praktikum.
+                                Unggah berkas dokumen modul (PDF), tentukan APD wajib, takaran bahan kimia, serta pemetaan limbah jerigen.
                             </p>
                         </div>
-                        <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-xl text-xs font-semibold">
-                            <button type="button" @click="materiMode = 'list'"
-                                    :class="materiMode === 'list' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-                                    class="px-3.5 py-2 rounded-lg transition">
-                                Daftar Materi ({{ $materiList->count() }})
-                            </button>
-                            <button type="button" @click="materiMode = 'create'"
-                                    :class="materiMode === 'create' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-                                    class="px-3.5 py-2 rounded-lg transition">
-                                + Unggah Materi Baru
-                            </button>
-                        </div>
+                <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-xl text-xs font-semibold">
+                    <button type="button" @click="materiMode = 'list'"
+                            :class="materiMode === 'list' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+                            class="px-3.5 py-2 rounded-lg transition">
+                        Materi ({{ $materiList->count() }})
+                    </button>
+                    <button type="button" @click="materiMode = 'create'"
+                            :class="materiMode === 'create' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+                            class="px-3.5 py-2 rounded-lg transition">
+                        + Unggah
+                    </button>
+                </div>
                     </div>
                 </div>
 
@@ -344,7 +344,7 @@
                                             </span>
                                             @if($m->file_path)
                                                 <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
-                                                    ✓ Berkas Tersedia
+                                                    Berkas Tersedia
                                                 </span>
                                             @else
                                                 <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">
@@ -402,11 +402,11 @@
 
                                 <!-- Action Buttons -->
                                 <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-                                    <button type="button" @click="openAiPreview({{ $m->id }}, '{{ addslashes($m->judul) }}')"
-                                            class="py-2 px-3.5 rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-100/70 text-indigo-700 text-xs font-bold transition flex items-center gap-1.5">
-                                        <svg class="w-3.5 h-3.5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14H8V9a4 4 0 114 4v1z"></path></svg>
-                                        <span>Pratinjau Ringkasan AI</span>
-                                    </button>
+                                <button type="button" @click="openAiPreview({{ $m->id }}, '{{ addslashes($m->judul) }}')"
+                                        class="py-2 px-3.5 rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-100/70 text-indigo-700 text-xs font-bold transition flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14H8V9a4 4 0 114 4v1z"></path></svg>
+                                    <span>Pratinjau</span>
+                                </button>
 
                                     <form action="{{ route('admin.materi.destroy', $m->id) }}" method="POST" onsubmit="return confirm('Hapus materi praktikum ini?');" class="inline">
                                         @csrf
@@ -684,8 +684,8 @@
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center font-bold text-white shadow-sm">
-                        ⚡
+                    <div class="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center font-bold text-white shadow-sm font-mono text-xs">
+                        AI
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
@@ -723,7 +723,7 @@
                 <div class="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-200 space-y-1">
                     <span class="text-[11px] font-bold text-emerald-800 uppercase tracking-wide">Efisiensi Cache</span>
                     <div class="text-2xl font-extrabold text-emerald-700 font-mono">{{ $tokenMetrics['cache_percentage'] }}%</div>
-                    <span class="text-[10px] text-emerald-600 font-semibold block">⚡ 0 token terbuang saat hit</span>
+                    <span class="text-[10px] text-emerald-600 font-semibold block">0 token saat cache hit</span>
                 </div>
 
                 <!-- 4. Rata-rata Token -->
@@ -766,11 +766,11 @@
                                     <td class="p-3.5 font-sans">
                                         @if($log->dari_cache)
                                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1 w-fit">
-                                                <span>✓</span> Dari Cache (Hemat 100%)
+                                                <span>[CACHE]</span> Hemat 100%
                                             </span>
                                         @else
                                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1 w-fit">
-                                                <span>🌐</span> LLM API Direct
+                                                <span>[API]</span> LiteLLM Direct
                                             </span>
                                         @endif
                                     </td>

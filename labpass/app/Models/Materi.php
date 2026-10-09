@@ -51,4 +51,9 @@ class Materi extends Model
     {
         return $this->hasMany(MateriLimbah::class);
     }
+
+    public function sesi()
+    {
+        return $this->hasMany(Sesi::class);
+    }
 }

@@ -29,7 +29,7 @@
                             Safety Gate
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500">Sistem Verifikasi Kepatuhan APD Laboratorium Kampus</p>
+                    <p class="text-xs text-slate-500">Verifikasi APD & Akses Laboratorium</p>
                 </div>
             </div>
 
@@ -53,7 +53,7 @@
                 Verifikasi Masuk Laboratorium
             </h1>
             <p class="text-xs sm:text-sm text-slate-600 mt-2">
-                Silakan isi data diri Anda dan arahkan badan ke kamera. Model AI YOLO akan memvalidasi kepatuhan APD (Jas Lab, Sarung Tangan, Kacamata, Masker).
+                Silakan isi data diri Anda dan arahkan badan ke kamera. Sistem akan memvalidasi kepatuhan APD (Jas Lab, Sarung Tangan, Kacamata, Masker).
             </p>
         </div>
 
@@ -86,7 +86,7 @@
             <div>
                 <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide flex items-center gap-2 mb-4">
                     <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">2</span>
-                    Pindai APD Badan (Model AI YOLO)
+                    Verifikasi APD
                 </h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
@@ -123,13 +123,13 @@
                     <div class="md:col-span-5 space-y-4">
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
                             <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wide mb-2.5">
-                                Kriteria Evaluasi YOLO:
+                                Kriteria Verifikasi:
                             </h3>
                             <ul class="text-xs space-y-2 text-slate-700">
-                                <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Jas Laboratorium Kancing Tertutup</li>
-                                <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Kacamata Pelindung (Safety Google)</li>
-                                <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Sarung Tangan Nitril / Karet</li>
-                                <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Masker Wajah K3L</li>
+                                <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Jas Laboratorium</li>
+                                <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Kacamata Pelindung</li>
+                                <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Sarung Tangan</li>
+                                <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Masker Wajah</li>
                             </ul>
                         </div>
 
@@ -156,7 +156,7 @@
                         <div class="pt-3">
                             <button type="button" @click="submitScan()" :disabled="isProcessing || (!capturedImage && !fileUpload && !nim)"
                                     class="w-full bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-extrabold py-3.5 px-4 rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2">
-                                <span>Pindai APD & Kirim ke Dosen &rarr;</span>
+                                <span>Verifikasi & Kirim ke Dosen &rarr;</span>
                             </button>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
 
     <!-- Clean Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-        <p>LabPass AI &copy; 2026 — Sistem Manajemen K3L Terintegrasi Laboratorium Terpadu.</p>
+        <p>LabPass &copy; 2026 — Sistem Verifikasi APD</p>
     </footer>
 
     <script>

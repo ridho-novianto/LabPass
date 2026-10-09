@@ -24,10 +24,10 @@
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="text-sm font-bold text-white tracking-tight">LabPass AI</span>
-                        <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Kios K3L</span>
+                        <span class="text-sm font-bold text-white tracking-tight">LabPass</span>
+                        <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Kios</span>
                     </div>
-                    <p class="text-[11px] text-slate-400">Gerbang Keselamatan & Verifikasi Masuk Laboratorium</p>
+                    <p class="text-[11px] text-slate-400">Verifikasi APD & Akses Laboratorium</p>
                 </div>
             </div>
 
@@ -37,7 +37,7 @@
                     <span>ONLINE • LAB-01</span>
                 </div>
                 <a href="{{ route('admin.dashboard') }}" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-medium">
-                    Panel Dosen & Aslab &rarr;
+                    Panel Dosen &rarr;
                 </a>
             </div>
         </div>
@@ -111,7 +111,7 @@
         <div x-show="step === 2" x-transition class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto shadow-xl">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <h2 class="text-lg font-bold text-white">Inspeksi Kamera APD K3L</h2>
+                    <h2 class="text-lg font-bold text-white">Verifikasi APD</h2>
                     <p class="text-xs text-slate-400">Posisikan tubuh Anda di depan kamera untuk verifikasi kepatuhan APD.</p>
                 </div>
                 <button @click="step = 1" class="text-xs text-slate-400 hover:text-white underline">
@@ -138,7 +138,7 @@
                     <div x-show="scanning" class="absolute inset-0 bg-emerald-500/10 flex items-center justify-center pointer-events-none">
                         <div class="w-full h-1 bg-emerald-400 absolute top-0 animate-bounce"></div>
                         <span class="bg-slate-900/90 text-emerald-400 px-3 py-1 rounded-full text-xs font-mono font-bold border border-emerald-500/30">
-                            MEMINDAI DENGAN YOLO VISION...
+                            MEMINDAI...
                         </span>
                     </div>
                 </div>
@@ -146,27 +146,27 @@
                 <!-- APD Checklist & Simulation Switch -->
                 <div class="md:col-span-5 space-y-4">
                     <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                        <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Standar APD Wajib Sesi</h3>
+                        <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">Standar APD Wajib</h3>
                         <ul class="text-xs space-y-2 text-slate-300">
-                            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Jas Laboratorium (Kancing Tertutup)</li>
-                            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Masker Respirator / Medis</li>
-                            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Kacamata Pelindung (Safety Google)</li>
-                            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Sarung Tangan Nitril</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Jas Laboratorium</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Masker</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Kacamata</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Sarung Tangan</li>
                         </ul>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="block text-[11px] font-semibold text-slate-400 uppercase">Uji Coba Skenario:</label>
+                        <label class="block text-[11px] font-semibold text-slate-400 uppercase">Uji Coba:</label>
                         <div class="grid grid-cols-2 gap-2">
                             <button type="button" @click="form.mode_apd = 'lengkap'"
                                     class="py-2 px-2.5 rounded-lg border text-xs font-medium text-center transition"
                                     :class="form.mode_apd === 'lengkap' ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300' : 'bg-slate-950 border-slate-800 text-slate-400'">
-                                APD Lengkap (Lolos)
+                                Lengkap
                             </button>
                             <button type="button" @click="form.mode_apd = 'kurang'"
                                     class="py-2 px-2.5 rounded-lg border text-xs font-medium text-center transition"
                                     :class="form.mode_apd === 'kurang' ? 'bg-amber-500/20 border-amber-500 text-amber-300' : 'bg-slate-950 border-slate-800 text-slate-400'">
-                                APD Kurang (Dispensasi)
+                                Kurang
                             </button>
                         </div>
                     </div>
@@ -267,7 +267,7 @@
 
     <!-- Industrial Footer -->
     <footer class="border-t border-slate-800 py-4 bg-slate-950 text-center text-xs text-slate-500">
-        <p>LabPass AI &copy; 2026 — Sistem Operasional K3L Kampus Terpadu. Jurusan Teknik Elektro & Informatika PENS.</p>
+        <p>LabPass &copy; 2026 — Sistem Verifikasi APD</p>
     </footer>
 
     <script>

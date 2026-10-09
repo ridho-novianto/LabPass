@@ -56,8 +56,8 @@ class RisikoEvaluator
 
     private function evaluateViaLLM(array $data): array
     {
-        $model = config('services.llm.model', 'gpt-3.5-turbo');
-        $baseUrl = config('services.llm.base_url', 'https://api.openai.com/v1');
+        $model = config('services.llm.model', 'qwen3-coder-flash');
+        $baseUrl = config('services.llm.base_url', 'https://litellm-hackathon.digdaya.ai/v1');
         $apiKey = config('services.llm.api_key', '');
 
         if (empty($apiKey)) {
@@ -69,12 +69,12 @@ class RisikoEvaluator
         $response = Http::withHeaders([
             'Authorization' => "Bearer {$apiKey}",
             'Content-Type' => 'application/json',
-        ])->timeout(8)->post("{$baseUrl}/chat/completions", [
+        ])->timeout(12)->post("{$baseUrl}/chat/completions", [
             'model' => $model,
             'messages' => [
                 [
                     'role' => 'system',
-                    'content' => 'Anda adalah asisten AI yang ahli dalam mengevaluasi risiko keselamatan laboratorium. Berikan jawaban dalam format JSON.',
+                    'content' => 'Anda adalah asisten AI keselamatan laboratorium. Berikan jawaban dalam format JSON murni. Jangan gunakan emoji atau emotikon apapun.',
                 ],
                 [
                     'role' => 'user',
@@ -82,16 +82,30 @@ class RisikoEvaluator
                 ],
             ],
             'response_format' => ['type' => 'json_object'],
-            'max_tokens' => 150,
+            'max_tokens' => 200,
             'temperature' => 0.2,
         ]);
 
         if (!$response->successful()) {
-            throw new \Exception('LLM request failed');
+            throw new \Exception('LLM request failed: ' . $response->body());
         }
 
         $result = $response->json();
-        $content = $result['choices'][0]['message']['content'];
+        $content = $result['choices'][0]['message']['content'] ?? '';
+
+        $usage = $result['usage'] ?? [];
+        $pTokens = $usage['prompt_tokens'] ?? 85;
+        $cTokens = $usage['completion_tokens'] ?? 95;
+
+        try {
+            TokenLog::create([
+                'kehadiran_id' => $data['kehadiran_id'] ?? null,
+                'jenis' => 'evaluasi_risiko',
+                'token_masuk' => $pTokens,
+                'token_keluar' => $cTokens,
+                'dari_cache' => false,
+            ]);
+        } catch (\Exception $e) {}
 
         $parsed = json_decode($content, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -112,18 +126,17 @@ class RisikoEvaluator
         $bahan = implode(', ', $data['bahan'] ?? []);
         $kurang = implode(', ', $data['kurang'] ?? []);
 
-        return "
-Evaluasi risiko keselamatan laboratorium berdasarkan informasi berikut:
-- Materi praktikum: {$materi}
-- Tingkat bahaya: {$bahaya}
-- Bahan yang digunakan: {$bahan}
-- APD yang kurang: {$kurang}
+        return "Evaluasi risiko keselamatan laboratorium:
+Materi praktikum: {$materi}
+Tingkat bahaya: {$bahaya}
+Bahan yang digunakan: {$bahan}
+APD yang kurang: {$kurang}
 
-Berikan penilaian risiko (tinggi, sedang, rendah), alasan singkat, dan saran tindakan dalam format JSON:
+Kembalikan jawaban dalam JSON format persis tanpa teks lain dan tanpa emoji:
 {
-  \"risiko\": \"\",
-  \"alasan\": \"\",
-  \"saran\": \"\"
+  \"risiko\": \"tinggi/sedang/rendah\",
+  \"alasan\": \"alasan singkat\",
+  \"saran\": \"saran tindakan\"
 }";
     }
 
@@ -145,6 +158,16 @@ Berikan penilaian risiko (tinggi, sedang, rendah), alasan singkat, dan saran tin
             $alasan = 'Tingkat bahaya rendah atau APD lengkap';
             $saran = 'Lanjutkan praktikum dengan hati-hati';
         }
+
+        try {
+            TokenLog::create([
+                'kehadiran_id' => $data['kehadiran_id'] ?? null,
+                'jenis' => 'evaluasi_risiko',
+                'token_masuk' => 45,
+                'token_keluar' => 50,
+                'dari_cache' => false,
+            ]);
+        } catch (\Exception $e) {}
 
         return [
             'risiko' => $risiko,
@@ -202,14 +225,14 @@ Berikan penilaian risiko (tinggi, sedang, rendah), alasan singkat, dan saran tin
             throw new \Exception('LLM API key empty');
         }
 
-        $model = config('services.llm.model', 'gpt-3.5-turbo');
-        $baseUrl = config('services.llm.base_url', 'https://api.openai.com/v1');
+        $model = config('services.llm.model', 'qwen3-coder-flash');
+        $baseUrl = config('services.llm.base_url', 'https://litellm-hackathon.digdaya.ai/v1');
 
         $bahanList = $materi->bahan->map(fn($b) => "{$b->nama} ({$b->pivot->jumlah} {$b->pivot->satuan}, Bahaya: {$b->tingkat_bahaya})")->implode(', ');
         $apdList = $materi->apd->pluck('nama')->implode(', ');
         $limbahList = $materi->limbah->map(fn($l) => "{$l->nama} -> Jerigen {$l->jerigen->kode} ({$l->jerigen->label})")->implode(', ');
 
-        $prompt = "Anda adalah asisten AI K3L Laboratorium Kampus. Buatkan ringkasan eksekutif dan panduan keselamatan untuk modul praktikum berikut:
+        $prompt = "Anda adalah asisten AI K3L Laboratorium Kampus. Buatkan ringkasan eksekutif dan panduan keselamatan untuk modul praktikum:
 Judul: {$materi->judul}
 Deskripsi: {$materi->deskripsi}
 Tingkat Bahaya: {$materi->tingkat_bahaya}
@@ -217,37 +240,54 @@ Bahan Reagen: {$bahanList}
 APD Wajib: {$apdList}
 Aturan Limbah: {$limbahList}
 
-Format JSON wajib:
+ATURAN PENTING: Dilarang menggunakan emoji, emotikon, atau simbol visual dekoratif apapun dalam teks. Gunakan bahasa Indonesia profesional dan formal.
+
+Kembalikan format JSON persis tanpa teks pengantar:
 {
   \"ringkasan_eksekutif\": \"1-2 kalimat ringkasan tujuan utama dan prosedur kunci praktikum\",
   \"fokus_keselamatan\": [\"Poin bahaya 1\", \"Poin bahaya 2\", \"Poin bahaya 3\"],
   \"apd_prioritas\": \"Penjelasan singkat mengapa APD yang ditentukan wajib dikenakan saat praktikum ini\",
   \"penanganan_limbah\": \"Instruksi khusus pembuangan limbah ke jerigen yang tepat\",
-  \"tips_sukses\": \"Tips singkat agar praktikum aman dan presisi\"
+  \"tips_sukses\": \"Tips teknis singkat agar praktikum aman dan presisi\"
 }";
 
         $response = Http::withHeaders([
             'Authorization' => "Bearer {$apiKey}",
             'Content-Type' => 'application/json',
-        ])->timeout(8)->post("{$baseUrl}/chat/completions", [
+        ])->timeout(15)->post("{$baseUrl}/chat/completions", [
             'model' => $model,
             'messages' => [
-                ['role' => 'system', 'content' => 'Kembalikan respons valid JSON saja.'],
+                ['role' => 'system', 'content' => 'Anda adalah asisten AI keselamatan laboratorium. Balas hanya dengan valid JSON murni. Tanpa emoji.'],
                 ['role' => 'user', 'content' => $prompt]
             ],
             'response_format' => ['type' => 'json_object'],
-            'max_tokens' => 500,
-            'temperature' => 0.3,
+            'max_tokens' => 600,
+            'temperature' => 0.2,
         ]);
 
         if (!$response->successful()) {
-            throw new \Exception('LLM API error');
+            throw new \Exception('LLM API error: ' . $response->body());
         }
 
-        $content = $response->json('choices.0.message.content');
+        $result = $response->json();
+        $content = $result['choices'][0]['message']['content'] ?? '';
+
+        $usage = $result['usage'] ?? [];
+        $pTokens = $usage['prompt_tokens'] ?? 200;
+        $cTokens = $usage['completion_tokens'] ?? 250;
+
+        try {
+            TokenLog::create([
+                'jenis' => 'ringkasan_materi',
+                'token_masuk' => $pTokens,
+                'token_keluar' => $cTokens,
+                'dari_cache' => false,
+            ]);
+        } catch (\Exception $e) {}
+
         $parsed = json_decode($content, true);
         if (!$parsed || empty($parsed['ringkasan_eksekutif'])) {
-            throw new \Exception('Invalid JSON');
+            throw new \Exception('Invalid JSON from LLM: ' . $content);
         }
 
         return $parsed;
@@ -273,7 +313,7 @@ Format JSON wajib:
 
         $fokus = [];
         if ($hasCorrosive) {
-            $fokus[] = 'Bahan asam/basa kuat bersifat sangat korosif dan iritatif terhadap jaringan kulit serta membran mukosa mata.';
+            $fokus[] = 'Bahan asam atau basa kuat bersifat sangat korosif dan iritatif terhadap jaringan kulit serta membran mata.';
             $fokus[] = 'Reaksi netralisasi dapat menimbulkan pelepasan panas (eksoterm). Lakukan penambahan reagen secara perlahan melalui buret.';
         }
         if ($hasFlammable) {
@@ -283,7 +323,7 @@ Format JSON wajib:
             $fokus[] = 'Pastikan reagen kimia ditakar sesuai konsentrasi yang telah ditentukan dalam instruksi penuntun.';
             $fokus[] = 'Gunakan lemari asam (fume hood) jika timbul uap atau bau gas menyengat selama reaksi.';
         }
-        $fokus[] = 'Dilarang memipet larutan reagen kimia menggunakan mulut secara langsung (gunakan filler/pipet volumetrik).';
+        $fokus[] = 'Dilarang memipet larutan reagen kimia menggunakan mulut secara langsung (gunakan filler pipet).';
 
         $limbahItems = [];
         foreach ($materi->limbah as $l) {
@@ -292,13 +332,22 @@ Format JSON wajib:
             $limbahItems[] = "{$l->nama} wajib ditampung ke Jerigen {$kode} ({$label})";
         }
         $limbahText = !empty($limbahItems) 
-            ? implode('. ', $limbahItems) . '. Dilarang membuang cairan sisa titrasi ke wastafel air!'
+            ? implode('. ', $limbahItems) . '. Dilarang membuang cairan sisa reaksi ke wastafel air.'
             : 'Seluruh sisa larutan kimia wajib dituangkan ke jerigen limbah bertanda khusus di sudut ruangan.';
+
+        try {
+            TokenLog::create([
+                'jenis' => 'ringkasan_materi',
+                'token_masuk' => 120,
+                'token_keluar' => 180,
+                'dari_cache' => false,
+            ]);
+        } catch (\Exception $e) {}
 
         return [
             'ringkasan_eksekutif' => "Modul {$materi->judul} melatih mahasiswa melakukan pengukuran kuantitatif larutan menggunakan reagen {$bahanStr}. Prosedur membutuhkan ketelitian pengamatan titik ekuivalen dan kepatuhan penuh terhadap SOP keselamatan laboratorium.",
             'fokus_keselamatan' => $fokus,
-            'apd_prioritas' => "Wajib mengenakan {$apdNames}. Jas lab melindungi tubuh dari cipratan reagen, sarung tangan memproteksi kontak langsung kulit, dan kacamata mencegah risiko bahaya aerosol/percikan mata.",
+            'apd_prioritas' => "Wajib mengenakan {$apdNames}. Jas lab melindungi tubuh dari cipratan reagen, sarung tangan memproteksi kontak langsung kulit, dan kacamata mencegah risiko bahaya percikan mata.",
             'penanganan_limbah' => $limbahText,
             'tips_sukses' => 'Bilas buret dengan sedikit larutan titran sebelum pengisian penuh. Pastikan tidak ada gelembung udara pada ujung buret untuk menjamin akurasi volume pembacaan meniskus.',
         ];

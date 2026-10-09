@@ -53,28 +53,28 @@
     <!-- Main Content Workspace -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-6">
 
-        <!-- AI EXECUTIVE SUMMARY & SAFETY BRIEFING (FITUR UTAMA AI LABPASS) -->
+        <!-- AI EXECUTIVE SUMMARY & SAFETY BRIEFING -->
         @if($aiSummary)
-            <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-5 border border-indigo-800/40 relative overflow-hidden">
+            <div class="bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-5 border border-indigo-800/40 relative overflow-hidden">
                 <!-- Background Accent Glow -->
                 <div class="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative z-10 border-b border-white/10 pb-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center font-bold text-indigo-300 text-sm">
-                            ✨
+                        <div class="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center font-bold text-indigo-300 text-xs font-mono">
+                            AI
                         </div>
                         <div>
                             <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-300 block">
-                                AI LABPASS SAFETY ASSISTANT &bull; {{ $aiSummary['dari_cache'] ?? false ? 'RINGKASAN CEPAT (CACHED)' : 'SINTESIS CERDAS AKTIF' }}
+                                RINGKASAN
                             </span>
                             <h2 class="text-base font-extrabold text-white tracking-tight">
-                                Ringkasan Eksekutif & Briefing Keselamatan Laboratorium
+                                Ringkasan Keselamatan
                             </h2>
                         </div>
                     </div>
                     <span class="text-[11px] font-semibold text-slate-300 bg-white/10 px-3 py-1 rounded-full w-fit">
-                        Tingkat Bahaya: <strong class="text-amber-300 uppercase">{{ $kehadiran->sesi->materi->tingkat_bahaya ?? 'Tinggi' }}</strong>
+                        Bahaya: <strong class="text-amber-300 uppercase">{{ $kehadiran->sesi->materi->tingkat_bahaya ?? 'Tinggi' }}</strong>
                     </span>
                 </div>
 
@@ -89,7 +89,8 @@
                     <!-- 1. Fokus Keselamatan K3L -->
                     <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-2">
                         <span class="text-[11px] font-bold text-rose-300 uppercase tracking-wide flex items-center gap-1.5">
-                            <span>⚠️</span> Bahaya & Poin Kritis K3L
+                            <span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[10px]">K3L</span>
+                            <span>Bahaya & Poin Kritis</span>
                         </span>
                         <ul class="space-y-1 text-slate-300 list-disc list-inside text-[11.5px] leading-relaxed">
                             @if(!empty($aiSummary['fokus_keselamatan']))
@@ -105,7 +106,8 @@
                     <!-- 2. APD Prioritas -->
                     <div class="p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 space-y-2">
                         <span class="text-[11px] font-bold text-indigo-300 uppercase tracking-wide flex items-center gap-1.5">
-                            <span>🛡️</span> Protokol APD Wajib
+                            <span class="px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono text-[10px]">APD</span>
+                            <span>Protokol Proteksi</span>
                         </span>
                         <p class="text-slate-300 text-[11.5px] leading-relaxed">
                             {{ $aiSummary['apd_prioritas'] ?? 'Jas laboratorium, kacamata pengaman, masker, dan sarung tangan wajib selalu digunakan.' }}
@@ -115,7 +117,8 @@
                     <!-- 3. Penanganan Limbah -->
                     <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 space-y-2">
                         <span class="text-[11px] font-bold text-amber-300 uppercase tracking-wide flex items-center gap-1.5">
-                            <span>🛢️</span> Aturan Limbah Jerigen
+                            <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">LIMBAH</span>
+                            <span>Aturan Jerigen</span>
                         </span>
                         <p class="text-slate-300 text-[11.5px] leading-relaxed">
                             {{ $aiSummary['penanganan_limbah'] ?? 'Buang seluruh cairan sisa reaksi ke jerigen khusus bertanda merah sebelum check-out.' }}
@@ -127,7 +130,7 @@
                 <!-- Tips Praktikum -->
                 @if(!empty($aiSummary['tips_sukses']))
                     <div class="relative z-10 pt-1 flex items-start gap-2.5 text-[11px] text-emerald-300 bg-emerald-950/30 p-3 rounded-xl border border-emerald-500/20">
-                        <span class="font-bold shrink-0">💡 Tips Presisi Praktikum:</span>
+                        <span class="font-bold shrink-0 text-emerald-400">[TIPS]:</span>
                         <span class="text-slate-200">{{ $aiSummary['tips_sukses'] }}</span>
                     </div>
                 @endif
@@ -165,12 +168,12 @@
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-700 font-bold">
-                                📄
+                            <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-700">
+                                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-slate-900">{{ $kehadiran->sesi->materi->judul }}.pdf</h3>
-                                <p class="text-xs text-slate-500">Berkas Modul Resmi dari Dosen Pengampu &bull; LabPass AI Document Viewer</p>
+                                <p class="text-xs text-slate-500">Berkas Modul Resmi dari Dosen Pengampu &bull; LabPass Document Viewer</p>
                             </div>
                         </div>
                         <a href="{{ asset($kehadiran->sesi->materi->file_path) }}" target="_blank"
@@ -199,13 +202,13 @@
                 </div>
             @else
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 text-center space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-xl mx-auto border border-amber-200">
-                        📑
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center mx-auto border border-amber-200">
+                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                     <div>
                         <h3 class="text-base font-bold text-slate-900">Dokumen PDF Belum Diunggah Dosen</h3>
                         <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">
-                            Dosen belum melampirkan berkas PDF untuk modul ini. Anda tetap dapat membaca petunjuk bahan kimia, alat, dan prosedur pembuangan limbah pada tab di atas.
+                            Dosen belum melampirkan berkas PDF untuk modul ini. Anda dapat membaca petunjuk bahan kimia, alat, dan prosedur pembuangan limbah pada tab di atas.
                         </p>
                     </div>
                 </div>
@@ -232,8 +235,8 @@
                             <span>Kebutuhan Takaran:</span>
                             <span class="font-bold text-slate-900 font-mono">{{ $b->pivot->jumlah }} {{ $b->pivot->satuan }}</span>
                         </div>
-                        <p class="text-xs text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                            ⚠️ Penanganan K3L: Ambil larutan di dalam lemari asam. Wajib gunakan sarung tangan nitril dan kacamata pengaman.
+                        <p class="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                            <strong class="text-slate-800">[Penanganan K3L]:</strong> Ambil larutan di dalam lemari asam. Wajib gunakan sarung tangan nitril dan kacamata pengaman.
                         </p>
                     </div>
                 @empty
@@ -258,7 +261,7 @@
                             <tr>
                                 <td class="p-4 font-bold text-slate-900">{{ $a->nama }}</td>
                                 <td class="p-4 font-mono font-semibold">{{ $a->pivot->jumlah }} Unit</td>
-                                <td class="p-4 text-emerald-700 font-semibold">✓ Siap di Meja Praktikum Mahasiswa</td>
+                                <td class="p-4 text-emerald-700 font-semibold">Tersedia di Meja Praktikum Mahasiswa</td>
                             </tr>
                         @empty
                             <tr><td colspan="3" class="p-4 text-slate-500">Tidak ada alat terdaftar.</td></tr>
@@ -275,7 +278,7 @@
                 <div>
                     <h4 class="font-bold text-amber-900">Peraturan Ketat Pembuangan Sisa Reaksi</h4>
                     <p class="mt-0.5 text-amber-800">
-                        Dilarang keras menuangkan limbah cairan kimia ke wastafel air! Setiap cairan sisa praktikum harus dimasukkan ke dalam jerigen bertanda khusus sebelum Anda meninggalkan laboratorium.
+                        Dilarang keras menuangkan limbah cairan kimia ke wastafel air. Setiap cairan sisa praktikum harus dimasukkan ke dalam jerigen bertanda khusus sebelum Anda meninggalkan laboratorium.
                     </p>
                 </div>
             </div>
@@ -364,7 +367,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-        <p>LabPass AI &copy; 2026 — Selesai Praktikum & Pembuangan Limbah Terverifikasi dengan Panduan Cerdas AI.</p>
+        <p>LabPass AI &copy; 2026 — Selesai Praktikum & Pembuangan Limbah Terverifikasi.</p>
     </footer>
 
     <script>
@@ -387,7 +390,7 @@
                         })
                     });
                     const data = await res.json();
-                    alert("Praktikum selesai dicatat! Terima kasih telah mematuhi SOP K3L.");
+                    alert("Praktikum selesai dicatat. Terima kasih telah mematuhi SOP K3L.");
                     window.location.href = "{{ route('verifikasi.index') }}";
                 }
             }

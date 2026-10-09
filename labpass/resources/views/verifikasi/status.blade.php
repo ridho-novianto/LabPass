@@ -24,7 +24,7 @@
                 </div>
                 <div>
                     <span class="text-base font-extrabold text-slate-900 tracking-tight">LabPass</span>
-                    <p class="text-xs text-slate-500">Status Validasi APD & Akses Kelas</p>
+                    <p class="text-xs text-slate-500">Status Verifikasi APD</p>
                 </div>
             </div>
 
@@ -112,7 +112,7 @@
             
             <h2 class="text-lg font-bold text-slate-900">Menunggu Persetujuan & Verifikasi Dosen</h2>
             <p class="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
-                Hasil pindaian APD Anda telah dikirimkan ke Dashboard Dosen / Aslab. Begitu Dosen memberikan izin (ACC), Anda dapat langsung memilih materi praktikum.
+                Hasil pindaian APD Anda telah dikirimkan ke Dosen. Begitu Dosen memberikan izin, Anda dapat memilih materi praktikum.
             </p>
 
             <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-xs font-mono text-amber-800">
@@ -150,7 +150,7 @@
 
                 <button type="button" @click="startAiProcessing()" :disabled="!selectedSesi"
                         class="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold py-3.5 px-4 rounded-xl text-sm transition shadow-sm flex items-center justify-center gap-2">
-                    <span>Mulai Praktikum & Muat Ringkasan Alat/Bahan AI &rarr;</span>
+                    <span>Mulai Praktikum &rarr;</span>
                 </button>
             </div>
 
@@ -162,7 +162,7 @@
 
                 <div>
                     <h3 class="text-base font-bold text-slate-900" x-text="aiStepText"></h3>
-                    <p class="text-xs text-slate-500 mt-1">Model AI sedang mempersiapkan alokasi reagen kimia & SOP wadah limbah...</p>
+                    <p class="text-xs text-slate-500 mt-1">Memproses data praktikum...</p>
                 </div>
 
                 <!-- Progress bar -->
@@ -179,7 +179,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-        <p>LabPass AI &copy; 2026 — Sistem Manajemen K3L Terpadu.</p>
+        <p>LabPass &copy; 2026 — Sistem Verifikasi APD</p>
     </footer>
 
     <script>
