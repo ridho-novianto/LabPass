@@ -85,7 +85,7 @@ LabPass/
 
 ### 1. Kloning Repositori
 ```bash
-git clone https://github.com/username/LabPass.git
+git clone https://github.com/ridho-novianto/LabPass.git
 cd LabPass
 ```
 
