@@ -1,4 +1,4 @@
-# LapPass - Gate Keamanan & Akses Laboratorium Pintar Berbasis AI
+# LabPass - Gate Keamanan & Akses Laboratorium Pintar Berbasis AI
 
 > Project Hackathon: Sistem otomatisasi verifikasi APD, briefing bahaya K3L berbasis LLM, dan validasi pembuangan limbah laboratorium.
 
@@ -11,7 +11,7 @@ Masalah klasik di laboratorium praktikum kampus:
 2. **Mahasiswa jarang baca modul K3L**: Mahasiswa sering langsung masuk praktikum tanpa paham sifat bahaya bahan kimia yang dipakai (misal reagen korosif asam/basa kuat).
 3. **Limbah praktikum dibuang sembarangan**: Sisa cairan kimia sering asal tuang ke wastafel atau salah jerigen penampungan, yang bikin bahaya fatal bagi lingkungan dan fasilitas lab.
 
-**LapPass** hadir sebagai "safety gatekeeper" terpadu:
+**LabPass** hadir sebagai "safety gatekeeper" terpadu:
 - Mahasiswa scan APD di kamera kios (deteksi YOLOv8 real-time).
 - Dosen/aslab memantau antrean dan acc akses dari dashboard.
 - Mahasiswa dapat ringkasan otomatis bahaya K3L & panduan limbah dari AI (LiteLLM Qwen Flash).
@@ -64,7 +64,7 @@ Masalah klasik di laboratorium praktikum kampus:
 ## Struktur Folder
 
 ```text
-LapPass/
+LabPass/
 ├── best.pt                    # Weights model YOLOv8 deteksi APD
 ├── inference_checklist.py     # Script Python inference YOLOv8
 ├── sample_test.jpg            # Sample gambar demo untuk uji coba cepat
@@ -85,8 +85,8 @@ LapPass/
 
 ### 1. Kloning Repositori
 ```bash
-git clone https://github.com/username/LapPass.git
-cd LapPass
+git clone https://github.com/username/LabPass.git
+cd LabPass
 ```
 
 ### 2. Setup Backend Python (YOLOv8)
